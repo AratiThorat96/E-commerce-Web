@@ -77,7 +77,7 @@ useEffect(() => {
  }, [category, subCategory, search, showSearch]);
 
  return (
- <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col md:flex-row pt-[70px] pb-[110px]'>
+ <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col md:flex-row pb-[110px]'>
  
  {/* --- 1. Filter Sidebar (Fixed on Desktop, Collapsible on Mobile) --- */}
 <div className={`

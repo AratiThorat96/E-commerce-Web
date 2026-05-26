@@ -6,7 +6,7 @@ import { BiSupport } from "react-icons/bi";
 
 function OurPolicy() {
   return (
-    <div className='w-[100vw] h-[100vh] md:h-[70vh] flex items-center justify-start flex-col bg-gradient-to-l from-[#141414] to-[#0c2025] gap-[50px]'>
+    <div className='w-full h-[100vh] md:h-[70vh] flex items-center justify-start flex-col bg-gradient-to-l from-[#141414] to-[#0c2025] gap-[50px]'>
         <div className='h-[8%] w-[100%] text-center mt-[70px]'>
             <Title text1={"OUR"} text2={"POLICY"}/>
             <p className='w-[100%] m-auto text-[13px] md:text-[20px] px-[10px] text-blue-100 px-[10px] text-blue-100'>Customer-Friendly

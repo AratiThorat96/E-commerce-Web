@@ -1,4 +1,3 @@
-// src/component/Nav.jsx - WITH CLICK-OUTSIDE LOGIC ADDED
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import Logo from '../assets/logo.png';
 import { IoSearchCircleOutline, IoSearchCircleSharp } from "react-icons/io5";
@@ -15,13 +14,13 @@ import { ShopDataContext } from '../context/ShopContext';
 function Nav() {
   const { getCurrentUser, userData } = useContext(userDataContext);
   let { serverUrl } = useContext(authDataContext);
-  let {showSearch, setShowSearch , search,setSearch,getCartCount} = useContext(ShopDataContext)
+  let { showSearch, setShowSearch, search, setSearch, getCartCount } = useContext(ShopDataContext);
   let [showProfile, setShowProfile] = useState(false);
   let navigate = useNavigate();
 
-  // --- 💡 ADDED REFS FOR CLICK-OUTSIDE LOGIC ---
   const profileRef = useRef(null);
   const searchRef = useRef(null);
+  const searchToggleRef = useRef(null);
 
   const handleLogout = async () => {
     try {
@@ -32,42 +31,37 @@ function Nav() {
       console.log(error);
     }
   };
-  
-  // --- 💡 ADDED EFFECT FOR PROFILE DROPDOWN CLOSURE ---
+
   useEffect(() => {
     function handleClickOutside(event) {
-      // Close profile dropdown if click is outside the dropdown and its button
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setShowProfile(false);
       }
     }
-    // Bind the event listener
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      // Unbind the event listener on cleanup
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [profileRef]);
+  }, []);
 
-  // --- 💡 ADDED EFFECT FOR MOBILE SEARCH CLOSURE ---
   useEffect(() => {
     function handleClickOutsideSearch(event) {
-      // Close search bar if click is outside the search area and its icon
-      if (searchRef.current && !searchRef.current.contains(event.target) && showSearch) {
-        // Only close if the click is NOT on the search icon itself
-        const searchIconClicked = event.target.closest('.search-toggle-icon');
-        if (!searchIconClicked) {
-          setShowSearch(false);
-        }
+      if (!showSearch) return;
+
+      const clickedInsideSearch = searchRef.current?.contains(event.target);
+      const clickedSearchToggle = searchToggleRef.current?.contains(event.target);
+
+      if (!clickedInsideSearch && !clickedSearchToggle) {
+        setShowSearch(false);
       }
     }
-    // Bind the event listener
+
     document.addEventListener("mousedown", handleClickOutsideSearch);
     return () => {
-      // Unbind the event listener on cleanup
       document.removeEventListener("mousedown", handleClickOutsideSearch);
     };
-  }, [searchRef, showSearch]);
+  }, [showSearch, setShowSearch]);
 
   const navItems = [
     { name: 'HOME', path: '/', icon: <IoMdHome className='w-[25px] h-[25px]' /> },
@@ -75,20 +69,18 @@ function Nav() {
     { name: 'ABOUT', path: '/about', icon: <MdContacts className='w-[25px] h-[25px]' /> },
     { name: 'CONTACT', path: '/contact', icon: <MdContacts className='w-[25px] h-[25px]' /> },
   ];
-  
+
   return (
     <div className='w-full h-[70px] bg-[#ecfafaec] z-20 fixed top-0 flex items-center justify-between px-4 md:px-8 shadow-lg shadow-black/10'>
-      {/* Left: Logo and Brand Name */}
       <div className='flex items-center gap-3 cursor-pointer' onClick={() => navigate('/')}>
         <img src={Logo} alt="Logo" className='w-10 h-10' />
         <span className='font-bold text-xl text-gray-800 hidden sm:block'>OneCart</span>
       </div>
 
-      {/* Center: Desktop Navigation */}
       <div className='w-1/2 hidden md:flex justify-center'>
         <ul className='flex items-center gap-5 text-gray-800 font-medium'>
           {navItems.map((item) => (
-            <li 
+            <li
               key={item.name}
               className='relative cursor-pointer transition-colors duration-300 before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:bg-orange-500 before:scale-x-0 before:transition-transform before:duration-300 hover:text-orange-500 hover:before:scale-x-100'
               onClick={() => navigate(item.path)}
@@ -99,18 +91,24 @@ function Nav() {
         </ul>
       </div>
 
-      {/* Right: Icons and User Menu */}
       <div className='flex items-center justify-end gap-3 md:gap-5'>
-        <div className='relative'>
-          {/* Added class 'search-toggle-icon' to identify the icon */}
+        <div className='relative' ref={searchToggleRef}>
           {!showSearch ? (
-            <IoSearchCircleOutline className='search-toggle-icon w-8 h-8 md:w-9 md:h-9 text-gray-800 cursor-pointer transition-transform duration-300 hover:scale-110' onClick={() => {setShowSearch(prev => !prev);navigate("/collections")}} />
+            <IoSearchCircleOutline
+              className='w-8 h-8 md:w-9 md:h-9 text-gray-800 cursor-pointer transition-transform duration-300 hover:scale-110'
+              onClick={() => {
+                setShowSearch(true);
+                navigate("/collections");
+              }}
+            />
           ) : (
-            <IoSearchCircleSharp className='search-toggle-icon w-8 h-8 md:w-9 md:h-9 text-gray-800 cursor-pointer transition-transform duration-300 hover:scale-110' onClick={() => setShowSearch(prev => !prev)} />
+            <IoSearchCircleSharp
+              className='w-8 h-8 md:w-9 md:h-9 text-gray-800 cursor-pointer transition-transform duration-300 hover:scale-110'
+              onClick={() => setShowSearch(false)}
+            />
           )}
         </div>
-          
-        {/* --- Profile Icon and Dropdown Container (Referenced by profileRef) --- */}
+
         <div className='relative' ref={profileRef}>
           {!userData ? (
             <FaUserCircle className="w-7 h-7 md:w-8 md:h-8 text-gray-800 cursor-pointer transition-transform duration-300 hover:scale-110" onClick={() => setShowProfile(prev => !prev)} />
@@ -167,21 +165,21 @@ function Nav() {
         </div>
       </div>
 
-      {/* --- Mobile Search Bar (Referenced by searchRef) --- */}
       {showSearch && (
         <div ref={searchRef} className='absolute w-full h-[80px] bg-white/95 backdrop-blur-sm top-full left-0 flex items-center justify-center z-10 transition-all duration-300 ease-in-out animate-slide-down'>
-          <input 
-            type="text" 
+          <input
+            type="text"
             className='w-[80%] md:w-[50%] h-[60%] bg-gray-100 rounded-full px-8 placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all'
-            placeholder='Search for products...' onChange={(e)=>{setSearch(e.target.value)}} value={search}
+            placeholder='Search for products...'
+            onChange={(e) => { setSearch(e.target.value) }}
+            value={search}
           />
         </div>
       )}
 
-      {/* Mobile Navigation */}
       <div className='w-full h-[80px] flex items-center justify-around px-4 text-xs fixed bottom-0 left-0 bg-gray-900 border-t border-gray-700 md:hidden z-20'>
         {navItems.map((item) => (
-          <button 
+          <button
             key={item.name}
             className='flex flex-col items-center justify-center text-white gap-1 transition-colors duration-300 hover:text-orange-500'
             onClick={() => navigate(item.path)}
@@ -191,8 +189,8 @@ function Nav() {
           </button>
         ))}
         <button className='flex flex-col items-center justify-center text-white gap-1 transition-colors duration-300 hover:text-orange-500' onClick={() => navigate('/cart')}>
-            <MdOutlineShoppingCart className='w-[25px] h-[25px]' />
-            CART
+          <MdOutlineShoppingCart className='w-[25px] h-[25px]' />
+          CART
         </button>
         <p className='absolute w-[18px] h-[18px] flex items-center justify-center bg-white px-[5px] py-[2px] text-black font-semibold rounded-full text-[9px] top-[8px] right-[18px]'>{getCartCount()}</p>
       </div>

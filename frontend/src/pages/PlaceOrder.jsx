@@ -123,7 +123,7 @@ function PlaceOrder() {
           orderData,
           { withCredentials: true }
         );
-        if (result.data.orderId) {
+        if (result.status === 201 || result.data?.orderId) {
           toast.success("Order placed successfully (COD)!");
           setCartItem({});
           navigate("/order");
@@ -157,7 +157,7 @@ function PlaceOrder() {
 
   return (
     // FIX: Changed w-[99vw] to w-full and added lg:p-12 for better spacing on large screens
-    <div className="w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col lg:flex-row items-start justify-center gap-12 relative p-4 lg:p-12 mx-auto">
+    <div className="w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col lg:flex-row items-start justify-center gap-12 relative p-4 lg:p-12 pb-[140px] md:pb-[40px] mx-auto">
       {/* Delivery Form */}
       {/* FIX: Changed lg:w-[50%] to lg:w-1/2 and w-[100%] to w-full */}
       <div className="lg:w-1/2 w-full flex items-center justify-center mt-20 lg:mt-0">
@@ -291,6 +291,7 @@ function PlaceOrder() {
         <Title text1="PAYMENT" text2="METHOD" />
         <div className="flex gap-6 mt-4 justify-center">
           <button
+            type="button"
             onClick={() => setMethod("razorpay")}
             // FIX: Replaced w-[150px] h-[50px] with w-36 h-12
             className={`w-36 h-12 rounded-sm transition duration-150 ease-in-out ${
@@ -304,6 +305,7 @@ function PlaceOrder() {
             />
           </button>
           <button
+            type="button"
             onClick={() => setMethod("cod")}
             // FIX: Replaced w-[200px] h-[50px] with w-48 h-12
             className={`w-48 h-12 rounded-sm bg-gradient-to-t from-[#95b3f8] to-white text-[#332f6f] font-bold transition duration-150 ease-in-out hover:shadow-lg ${

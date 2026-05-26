@@ -39,7 +39,7 @@ function Cart() {
   }, [cartItem]);
 
   return (
-    <div className="w-[99vw] min-h-[100vh] p-[20px] overflow-hidden bg-gradient-to-l from-[#141414] to-[#0c2025]">
+    <div className="w-full min-h-[100vh] p-[20px] pb-[140px] md:pb-[40px] overflow-hidden bg-gradient-to-l from-[#141414] to-[#0c2025]">
       {/* Page Title */}
       <div className="text-center mt-[80px] mb-[30px]">
         <Title text1="YOUR" text2="CART" />
@@ -115,7 +115,7 @@ function Cart() {
       <div className='flex justify-start items-end my-20'>
         <div className='w-full sm:w-[450px]'>
           <CartTotal />
-          <button className='text-[18px] hover:bg-slate-500 cursor-pointer bg-[#51808048] py-[10px] px-[50px] rounded-2xl text-white flex items-center gap-[20px] border-[1px] border-[#80808049] ml-[30px] mt-[20px]'onClick={()=>{
+          <button type="button" className='text-[18px] hover:bg-slate-500 cursor-pointer bg-[#51808048] py-[10px] px-[50px] rounded-2xl text-white flex items-center gap-[20px] border-[1px] border-[#80808049] ml-[30px] mt-[20px]' onClick={()=>{
             if(cartData.length >0){
               navigate("/placeorder");
             }else{

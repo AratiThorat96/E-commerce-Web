@@ -55,35 +55,28 @@ function Login() {
   };
 
   return (
-    <div className="w-[100vw] h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-white flex flex-col items-center justify-start">
-      {/* Header */}
+    <div className="w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] text-white flex flex-col items-center justify-start pb-[30px]">
       <div className="w-full h-[80px] flex items-center justify-start px-[30px] gap-[10px] cursor-pointer" onClick={() => navigate("/")}>
         <img className="w-[40px]" src={Logo} alt="logo" />
         <span className="text-[22px] font-sans">OneCart</span>
       </div>
 
-      {/* Title */}
       <div className="w-full h-[100px] flex flex-col items-center justify-center gap-[10px]">
         <span className="text-[25px] font-semibold">Login Page</span>
         <span className="text-[16px]">Welcome to OneCart, place your order</span>
       </div>
 
-      {/* Card */}
       <div className="max-w-[600px] w-[90%] h-[500px] bg-[#00000025] border border-[#96969635] backdrop-blur-2xl rounded-lg shadow-lg flex items-center justify-center">
         <form onSubmit={handleLogin} className="w-[90%] h-[90%] flex flex-col items-center justify-start gap-[20px]">
-          
-          {/* Google button */}
           <div className="w-[90%] h-[50px] bg-[#42656cae] rounded-lg flex items-center justify-center gap-[10px] py-[20px] cursor-pointer" onClick={googlelogin}>
             <img src={google} alt="google" className="w-[20px]" />
             Login with Google
           </div>
 
-          {/* Divider */}
           <div className="w-full h-[20px] flex items-center justify-center gap-[10px]">
             <div className="w-[40%] h-[1px] bg-[#96969635]"></div> OR <div className="w-[40%] h-[1px] bg-[#96969635]"></div>
           </div>
 
-          {/* Inputs */}
           <div className="w-[90%] flex flex-col items-center justify-center gap-[15px] relative">
             <input
               type="email"
@@ -103,7 +96,6 @@ function Login() {
               value={password}
             />
 
-            {/* Show/Hide password: Positioning is tricky, but the original bottom-[57%] is kept as it relates to the two inputs */}
             {!show ? (
               <IoEyeOutline className='w-[20px] h-[20px] cursor-pointer absolute right-[5%] bottom-[57%]' onClick={() => setShow(prev => !prev)} />
             ) : (
@@ -115,7 +107,7 @@ function Login() {
             </button>
 
             <p className="flex gap-[10px]">
-              Don’t have an account?
+              {"Don't have an account?"}
               <span className="text-[#5555f6cf] text-[17px] font-semibold cursor-pointer" onClick={() => navigate("/signup")}>
                 Create New Account
               </span>

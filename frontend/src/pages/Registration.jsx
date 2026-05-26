@@ -20,7 +20,6 @@ function Registration() {
 
   const navigate = useNavigate();
 
-  // Normal Signup
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -37,7 +36,6 @@ function Registration() {
     }
   };
 
-  // Google Signup/Login
   const googlesignup = async () => {
     try {
       const response = await signInWithPopup(auth, provider);
@@ -59,7 +57,7 @@ function Registration() {
   };
 
   return (
-    <div className='w-[100vw] h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-white flex flex-col items-center justify-start'>
+    <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] text-white flex flex-col items-center justify-start pb-[30px]'>
       <div
         className='w-[100%] h-[80px] flex items-center justify-start px-[30px] gap-[10px] cursor-pointer'
         onClick={() => navigate("/")}
@@ -73,10 +71,8 @@ function Registration() {
         <span className='text-[16px]'>Welcome to OneCart, place your order</span>
       </div>
 
-      <div className='max-w-[600px] w-[90%] h-[500px] bg-[#00000025] border-[1px] border-[#96969635] backdrop:blur-2xl rounded-lg shadow-lg flex items-center justify-center'>
+      <div className='max-w-[600px] w-[90%] h-[500px] bg-[#00000025] border-[1px] border-[#96969635] backdrop-blur-2xl rounded-lg shadow-lg flex items-center justify-center'>
         <form onSubmit={handleSignup} className='w-[90%] h-[90%] flex flex-col items-center justify-start gap-[20px]'>
-          
-          {/* Google login button */}
           <div
             className="w-[90%] h-[50px] bg-[#42656cae] rounded-lg flex items-center justify-center gap-[10px] py-[20px] cursor-pointer"
             onClick={googlesignup}
@@ -85,16 +81,14 @@ function Registration() {
             Register with Google
           </div>
 
-          {/* OR divider */}
           <div className='w-[100%] h-[20px] flex items-center justify-center gap-[10px]'>
             <div className='w-[40%] h-[1px] bg-[#96969635]'></div> OR <div className='w-[40%] h-[1px] bg-[#96969635]'></div>
           </div>
 
-          {/* Form fields */}
           <div className='w-[90%] h-[400px] flex flex-col items-center justify-center gap-[15px] relative'>
             <input
               type="text"
-              className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold'
+              className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop-blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold'
               placeholder='Username'
               required
               onChange={(e) => setName(e.target.value)}
@@ -103,34 +97,35 @@ function Registration() {
 
             <input
               type="email"
-              className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold'
+              className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop-blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold'
               placeholder='Email'
               required
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
 
-            <input
-              type={show ? "text" : "password"}
-              className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold'
-              placeholder='Password'
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
+            <div className='w-[100%] relative'>
+              <input
+                type={show ? "text" : "password"}
+                className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop-blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] pr-[50px] font-semibold'
+                placeholder='Password'
+                required
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
 
-            {/* Show/Hide password: Adjusted top position to align with the password field (the third input) */}
-            {!show ? (
-              <IoEyeOutline
-                className='w-[20px] h-[20px] cursor-pointer absolute right-[5%] top-[240px]' // Corrected position
-                onClick={() => setShow(prev => !prev)}
-              />
-            ) : (
-              <IoEye
-                className='w-[20px] h-[20px] cursor-pointer absolute right-[5%] top-[240px]' // Corrected position
-                onClick={() => setShow(prev => !prev)}
-              />
-            )}
+              {!show ? (
+                <IoEyeOutline
+                  className='w-[20px] h-[20px] cursor-pointer absolute right-[5%] top-1/2 -translate-y-1/2'
+                  onClick={() => setShow(prev => !prev)}
+                />
+              ) : (
+                <IoEye
+                  className='w-[20px] h-[20px] cursor-pointer absolute right-[5%] top-1/2 -translate-y-1/2'
+                  onClick={() => setShow(prev => !prev)}
+                />
+              )}
+            </div>
 
             <button className='w-[100%] h-[50px] bg-[#6060f5] rounded-lg flex items-center justify-center mt-[20px] text-[17px] font-semibold'>
               Create Account

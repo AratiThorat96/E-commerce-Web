@@ -6,17 +6,15 @@ import back4 from "../assets/back4.png";
 
 const backgrounds = [back4, back2, back1, back3];
 
-// Removed unused 'isTransitioning' prop.
-function Background({ heroCount }) { 
+function Background({ heroCount }) {
   return (
     <div className="w-full h-1/2 md:w-1/2 md:h-full relative overflow-hidden">
       {backgrounds.map((img, index) => (
-        <img 
+        <img
           key={index}
-          src={img} 
-          alt={`background-${index}`} 
-          // Duration is set to 700ms. Home.jsx must match this.
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ease-in-out ${
+          src={img}
+          alt={`background-${index}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
             heroCount === index ? 'opacity-100' : 'opacity-0'
           }`}
         />
